@@ -1,14 +1,18 @@
-package entity;
+package com.example.demo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order_detail")
+
+@Table(name = "users")
 public class Users {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	
@@ -16,7 +20,7 @@ public class Users {
 	private String userName;
 	
 	@Column(name = "address")
-	private String iaddressd;
+	private String address;
 	
 	@Column(name = "email")
 	private String email;
@@ -29,6 +33,19 @@ public class Users {
 	
 	@Column(name = " password")
 	private String  password;
+	
+	public Users(String name,String email,
+			String  password,String address,
+			String tell) {
+		super();
+	
+		this.address=address;
+		this.email=email;
+		this.tell=tell;
+		this.name=name;
+		this.password=password;
+		
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -37,8 +54,8 @@ public class Users {
 		return userName;
 	}
 
-	public String getIaddressd() {
-		return iaddressd;
+	public String getAddressd() {
+		return address;
 	}
 
 	public String getEmail() {
