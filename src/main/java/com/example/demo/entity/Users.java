@@ -34,6 +34,9 @@ public class Users {
 	@Column(name = " password")
 	private String  password;
 	
+	public Users() {
+		
+	}
 	public Users(String name,String email,
 			String  password,String address,
 			String tell) {

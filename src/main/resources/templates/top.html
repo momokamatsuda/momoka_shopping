@@ -6,5 +6,32 @@
 </head>
 <body>
 	<h1>トップ</h1>
+	<form action="/search" method="get">
+		<input type="search" name="search" placeholder="キーワードを入力"> <input
+			type="submit" value="検索">
+	</form>
+
+	<!-- <a href="/items">全商品表示</a>
+	<a th:each="c:${categories}" th:href="'/items/'+${c.code}"> <span
+		th:text="${c.name}" style="padding-left: 10px;"></span>
+	</a> -->
+	<hr>
+	<table border="1">
+		<tr>
+			<th>NO</th>
+			<th>商品名</th>
+			<th>値段</th>
+			<th></th>
+
+		</tr>
+		<tr th:each="item:${items}">
+
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.price}"></td>
+			<td>
+				<a th:href="|/cart/add/${item.id}|">カートに追加</a>
+			</td>
+
+		</tr>
 </body>
 </html>
