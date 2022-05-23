@@ -12,7 +12,7 @@ public class Pay {
 	@Column(name = "id")
 	private Integer id;
 	@Column(name = "user_id")
-	private Integer userId;
+	private Integer userId;//顧客番号
 	@Column(name = "credit_no")
 	private String creditNo;
 	@Column(name = "credit_security")
@@ -32,5 +32,16 @@ public class Pay {
 
 	public Integer getCreditSecurity() {
 		return creditSecurity;
+	}
+
+	public Pay() {
+		super();
+	}
+
+	public Pay(Integer userId, String creditNo, Integer creditSecurity) {
+		super();
+		this.userId = userId;
+		this.creditNo = creditNo;
+		this.creditSecurity = creditSecurity;
 	}
 }

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.entity.Items;
@@ -20,15 +22,20 @@ public class ItemController {
 	ItemsRepository itemsRepository;
 
 	//検索
-	@RequestMapping(value = "/search")
-	public ModelAndView search(ModelAndView mv) {
-		
+	@RequestMapping(value="/search" ,method=RequestMethod.POST)
+	public ModelAndView search(
+			ModelAndView mv,
+			@RequestParam("searchWord") String searchWord) {
+		List<Items> itemList=itemsRepository.findAllByNameContaining(searchWord);
+		mv.addObject("items",itemList);
+		mv.setViewName("top");
 		return mv;
-		
 	}
+
 	//トップページに全商品を表示する
 	@RequestMapping(value = "/items")
 	public ModelAndView items(ModelAndView mv) {
+		mv.addObject("items", itemsRepository.findAll());
 		//itemsの要素をすべてitemListに格納する
 		List<Items> itemList = itemsRepository.findAll();
 		//itemListを変数名itemsに格納
@@ -37,4 +44,6 @@ public class ItemController {
 		mv.setViewName("top");
 		return mv;
 	}
+
+
 }

@@ -50,6 +50,11 @@ public class AccountController {
 		if (usersList.size() != 0) {
 			// ユーザー情報をセッション(ログインからログ アウトまでに保存）にいれる
 			session.setAttribute("user", usersList.get(0));
+			//DBに保存されているユーザの名前をnameに格納（session.nameで呼び出す）
+//			session.setAttribute("name", usersList.get(0).getName());
+//			session.setAttribute("adress", usersList.get(0).getAddressd());
+//			session.setAttribute("email", usersList.get(0).getEmail());
+//			session.setAttribute("tell", usersList.get(0).getTell());
 			// top.htmlに遷移
 			List<Items> itemList = itemsRepository.findAll();
 			mv.addObject("items", itemList);

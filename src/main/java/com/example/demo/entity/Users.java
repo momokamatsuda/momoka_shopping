@@ -49,6 +49,18 @@ public class Users {
 		this.password=password;
 		
 	}
+	public Users(Integer id, String name,String email,
+			String  password,String address,
+			String tell) {
+		super();
+		this.id = id;
+		this.address=address;
+		this.email=email;
+		this.tell=tell;
+		this.name=name;
+		this.password=password;
+		
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -57,7 +69,7 @@ public class Users {
 		return userName;
 	}
 
-	public String getAddressd() {
+	public String getAddress() {
 		return address;
 	}
 

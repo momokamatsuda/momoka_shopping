@@ -12,6 +12,10 @@ public class Cart {
 		return itemlist;
 	}
 
+	public Cart() {
+
+	}
+
 	public int getTotal() {
 		return total;
 	}
@@ -23,33 +27,35 @@ public class Cart {
 		if (existedItem == null) {
 			// 今カートに入ってる数を取得
 			item.setQuantity(quantity);
-			itemlist.put(item.getId(),item);
+			itemlist.put(item.getId(), item);
 
-		}else {
-			//アイテムがexistedItemに存在する場合は数量のみ追加
+		} else {
+			// アイテムがexistedItemに存在する場合は数量のみ追加
 			existedItem.setQuantity(existedItem.getQuantity() + quantity);
-			
+
 		}
 		recalcTotal();
 	}
+
 	/**
 	 * カートの削除処理
+	 * 
 	 * @param itemCode
 	 */
-		public void deleteCart(int itemCode) {
-			//item.codeを使用してカート配列から削除
-			itemlist.remove(itemCode);
-			recalcTotal();
-	     }
-		/**
-		 * カートの中身の総計を算出
-		 */
-		public void recalcTotal() {
-			total=0;
-			for(Items item:itemlist.values()) {
-				total += item.getPrice()*item.getQuantity();
-			}
-		}
+	public void deleteCart(int itemCode) {
+		// item.codeを使用してカート配列から削除
+		itemlist.remove(itemCode);
+		recalcTotal();
+	}
 
+	/**
+	 * カートの中身の総計を算出
+	 */
+	public void recalcTotal() {
+		total = 0;
+		for (Items item : itemlist.values()) {
+			total += item.getPrice() * item.getQuantity();
+		}
+	}
 
 }

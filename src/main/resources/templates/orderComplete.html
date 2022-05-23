@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>注文内容確認画面</title>
+</head>
+<body>
+
+	<table border="1">
+	<!-- タイトル -->
+	<tr>
+		<th>商品名</th>
+		<th>値段</th>
+		<th>個数</th>
+		<th>小計</th>
+		
+	</tr>
+	<!--  アイテムの一覧-->
+	<tr th:each="item:${items}">
+		<td th:text="${item.value.name}"></td>
+		<td th:text="${item.value.price}"></td>
+		<td th:text="${item.value.quantity}"></td>
+		<td th:text="${item.value.price*item.value.quantity}"></td>
+	</tr>
+	<!-- 総計 -->
+	<tr>
+		<td align="right" colspan="4" th:text="|総計：${total}|"></td>
+	</tr>
+</table>
+<h3>お客様情報</h3>
+	<p>
+		名前：
+		<span th:text="${session.user.name}"></span>
+	</p>
+	<p>
+		住所：
+		<span th:text="${session.user.address}"></span>
+	</p>
+	<p>
+		メールアドレス：
+		<span th:text="${session.user.email}"></span>
+	</p>
+	<p>
+		電話番号：
+		<span th:text="${session.user.tell}"></span>
+	</p>
+	<p>
+		クレジットカード：
+		<span th:text="${session.pay.creditNo}"></span>
+	</p>
+	<h3>上記の内容でよろしいですか</h3>
+	<a href="/orderItem">入力内容訂正</a>
+	<a href="ordered">注文</a>
+</body>
+</html>
