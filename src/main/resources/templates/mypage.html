@@ -3,9 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>マイページ</title>
+<link rel="stylesheet" th:href="@{/css/NewFile.css}">
 </head>
 <body>
-<h1>マイページ</h1>
-
+	<a href="/items">トップページへ</a>
+	<a href="/history">注文履歴を確認する</a>
+	<a href="/">ログアウト</a>
+	<hr>
+	<p>
+			名前：
+			<span th:text="${session.user.name}"></span>
+		</p>
+		<p>
+			メールアドレス：
+			<span th:text="${session.user.email}"></span>
+		</p>
+		<p>
+			パスワード：
+			<span th:text="${session.user.password}"></span>
+		</p>
+		<p>
+			住所：
+			<span th:text="${session.user.address}"></span>
+		</p>
+		<p>
+			電話番号：
+			<span th:text="${session.user.tell}"></span>
+		</p>
+		<form action="editUser" >
+			<button>登録情報の更新</button>
+		</form>
 </body>
 </html>

@@ -13,37 +13,35 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.entity.Items;
 import com.example.demo.repositoy.ItemsRepository;
+
 @Controller
 public class ItemController {
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
 	ItemsRepository itemsRepository;
 
-	//検索
-	@RequestMapping(value="/search" ,method=RequestMethod.POST)
-	public ModelAndView search(
-			ModelAndView mv,
-			@RequestParam("searchWord") String searchWord) {
-		List<Items> itemList=itemsRepository.findAllByNameContaining(searchWord);
-		mv.addObject("items",itemList);
+	// 検索
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public ModelAndView search(ModelAndView mv, @RequestParam("searchWord") String searchWord) {
+		List<Items> itemList = itemsRepository.findAllByNameContaining(searchWord);
+		mv.addObject("items", itemList);
 		mv.setViewName("top");
 		return mv;
 	}
 
-	//トップページに全商品を表示する
+	// トップページに全商品を表示する
 	@RequestMapping(value = "/items")
 	public ModelAndView items(ModelAndView mv) {
 		mv.addObject("items", itemsRepository.findAll());
-		//itemsの要素をすべてitemListに格納する
+		// itemsの要素をすべてitemListに格納する
 		List<Items> itemList = itemsRepository.findAll();
-		//itemListを変数名itemsに格納
+		// itemListを変数名itemsに格納
 		mv.addObject("items", itemList);
 
 		mv.setViewName("top");
 		return mv;
 	}
-
 
 }

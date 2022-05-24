@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>注文内容確認画面</title>
+<link rel="stylesheet" th:href="@{/css/NewFile.css}">
 </head>
 <body>
 
@@ -27,29 +28,37 @@
 		<td align="right" colspan="4" th:text="|総計：${total}|"></td>
 	</tr>
 </table>
-<h3>お客様情報</h3>
-	<p>
-		名前：
-		<span th:text="${session.user.name}"></span>
-	</p>
-	<p>
-		住所：
-		<span th:text="${session.user.address}"></span>
-	</p>
-	<p>
-		メールアドレス：
-		<span th:text="${session.user.email}"></span>
-	</p>
-	<p>
-		電話番号：
-		<span th:text="${session.user.tell}"></span>
-	</p>
-	<p>
-		クレジットカード：
-		<span th:text="${session.pay.creditNo}"></span>
-	</p>
-	<h3>上記の内容でよろしいですか</h3>
-	<a href="/orderItem">入力内容訂正</a>
-	<a href="ordered">注文</a>
+	<form action="/order/doOrder" method ="post">
+		<h3>お客様情報</h3>
+		<p>
+			名前：
+			<span th:text="${session.user.name}"></span>
+		</p>
+		<p>
+			住所：
+			<span th:text="${session.user.address}"></span>
+		</p>
+		<p>
+			メールアドレス：
+			<span th:text="${session.user.email}"></span>
+		</p>
+		<p>
+			電話番号：
+			<span th:text="${session.user.tell}"></span>
+		</p>
+		<p>
+			クレジットカード：
+			<span th:text="${session.pay.creditNo}"></span>
+		</p>
+		<h3>上記の内容でよろしいですか</h3>
+	
+		<!--  -->
+		<input type="submit" value="注文する">
+	</form>
+	
+	
+	<a href="/orderItem">
+		<button>入力内容訂正</button>
+	</a>
 </body>
 </html>

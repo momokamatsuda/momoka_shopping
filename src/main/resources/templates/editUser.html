@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>登録情報の変更</title>
+<link rel="stylesheet" th:href="@{/css/NewFile.css}">
+</head>
+<body>
+
+	<h3>お客様情報</h3>
+	<!-- エラーメッセージ -->
+<span th:text="${message}" style="color:red;"></span>
+	<form action="/editUser" method="post">
+		<p>
+			名前： <input type="text" name="name" th:value="${session.user.name}">
+		</p>
+		<p>
+			メールアドレス： <input type="text" name="email"
+				th:value="${session.user.email}">
+		</p>
+		<p>
+			パスワード： <input type="text" name="password"
+				th:value="${session.user.password}">
+		</p>
+		<p>
+			住所： <input type="text" name="address"
+				th:value="${session.user.address}">
+		</p>
+		<p>
+			電話番号： <input type="text" name="tell" th:value="${session.user.tell}">
+		</p>
+		<input type="submit" value="更新">
+	</form>
+</body>
+</html>

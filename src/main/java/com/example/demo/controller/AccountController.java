@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.entity.Cart;
 import com.example.demo.entity.Items;
+import com.example.demo.entity.Ordered;
+import com.example.demo.entity.Pay;
 import com.example.demo.entity.Users;
 import com.example.demo.repositoy.ItemsRepository;
+import com.example.demo.repositoy.OrderedRepository;
 import com.example.demo.repositoy.UsersRepository;
 
 @Controller
@@ -26,6 +30,9 @@ public class AccountController {
 
 	@Autowired
 	ItemsRepository itemsRepository;
+	
+	@Autowired
+	OrderedRepository orderedRepository;
 
 	@RequestMapping("/")
 	public String login() {
@@ -50,7 +57,7 @@ public class AccountController {
 		if (usersList.size() != 0) {
 			// ユーザー情報をセッション(ログインからログ アウトまでに保存）にいれる
 			session.setAttribute("user", usersList.get(0));
-			//DBに保存されているユーザの名前をnameに格納（session.nameで呼び出す）
+			// DBに保存されているユーザの名前をnameに格納（session.nameで呼び出す）
 //			session.setAttribute("name", usersList.get(0).getName());
 //			session.setAttribute("adress", usersList.get(0).getAddressd());
 //			session.setAttribute("email", usersList.get(0).getEmail());
@@ -103,6 +110,111 @@ public class AccountController {
 		} else {
 			return false;
 		}
+	}
+
+	// 注文画面で変更されたユーザー情報を更新
+	@RequestMapping(value = "/orderComplete", method = RequestMethod.POST)
+	public ModelAndView login(@RequestParam(name = "name") String name, @RequestParam(name = "email") String email,
+			@RequestParam(name = "address") String address, @RequestParam(name = "tell") String tell,
+			@RequestParam(name = "creditNo") String creditNo,
+			@RequestParam(name = "creditSecurity", defaultValue = "0") Integer creditSecurity, ModelAndView mv) {
+
+		// セッションからUser情報を取得
+		Users user = (Users) session.getAttribute("user");
+		if (isNull(name) || isNull(email)|| isNull(address) || isNull(tell)
+				||	isNull(creditNo)||	creditSecurity==0	) {
+			mv.addObject("message", "未入力項目があります");
+
+			// 更新画面を再表示
+			mv.addObject("userInfo", session.getAttribute("userInfo"));
+			mv.setViewName("orderInfo");
+		} else {
+		// 入力された情報をUsersテーブルに更新(IDは設定)
+		Users users = new Users(user.getId(), name, email, user.getPassword(), address, tell);
+		usersRepository.saveAndFlush(users);
+		session.setAttribute("user", users);
+
+		// クレジットカード情報をDBに登録または更新？？？
+		//List<Pay> payList = payRepository.findAll();
+		Pay pay = new Pay(user.getId(), creditNo, creditSecurity);
+
+		//
+		// sessionにクレジットカードを入れる
+		session.setAttribute("pay", pay);
+		
+		Cart cart = getCartFromSession();
+		mv.addObject("items", cart.getItems());
+		mv.addObject("total", cart.getTotal());
+		mv.setViewName("orderComplete");
+		}
+		return mv;
+		
+	}
+
+	private Cart getCartFromSession() {
+		Cart cart = (Cart) session.getAttribute("cart");
+		if (cart == null) {
+			cart = new Cart();
+			session.setAttribute("cart", cart);
+
+		}
+		return cart;
+	}
+
+	// マイページの表示
+	@RequestMapping("/mypage")
+	public ModelAndView mypage(ModelAndView mv) {
+		// セッションからUser情報を取得
+//		Users user = (Users) session.getAttribute("user");
+//		Users users = new Users(user.getName(), user.getEmail(), user.getPassword(), user.getAddress(), user.getTell());
+//		session.setAttribute("user", users);
+		mv.setViewName("mypage");
+		return mv;
+	}
+
+	// 登録情報変更変更ページに遷移
+	@RequestMapping("/editUser")
+	public ModelAndView editUserPage(ModelAndView mv) {
+		mv.setViewName("editUser");
+		return mv;
+	}
+
+	// 登録情報変更
+	@RequestMapping(value = "/editUser", method = RequestMethod.POST)
+	public ModelAndView editUser(@RequestParam("name") String name, @RequestParam("address") String address,
+			@RequestParam("tell") String tell, @RequestParam("email") String email,
+			@RequestParam("password") String password, ModelAndView mv) {
+
+		// 未入力チェック
+		if (isNull(name) || isNull(email) || isNull(password) || isNull(address) || isNull(tell)) {
+			mv.addObject("message", "未入力項目があります");
+
+			// 更新画面を再表示
+			mv.addObject("userInfo", session.getAttribute("userInfo"));
+			mv.setViewName("editUser");
+		} else {
+
+			// セッションからUser情報を取得
+			Users user = (Users) session.getAttribute("user");
+
+			// 入力された情報をUsersテーブルに更新(IDは設定)
+			Users users = new Users(user.getId(), name, email, password, address, tell);
+			usersRepository.saveAndFlush(users);
+			session.setAttribute("user", users);
+			mv.setViewName("mypage");
+		}
+		return mv;
+	}
+
+	@RequestMapping(value = "/history")
+	public ModelAndView history(ModelAndView mv) {
+		// セッションからUser情報を取得
+		Users user = (Users) session.getAttribute("user");
+		
+		List<Ordered> orders = orderedRepository.findAllByUserId(user.getId());
+		mv.addObject("orders",orders);
+		mv.setViewName("history");
+		return mv;
 	}
 
 }

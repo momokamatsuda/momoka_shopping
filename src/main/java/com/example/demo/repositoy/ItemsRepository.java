@@ -17,4 +17,5 @@ public interface ItemsRepository extends JpaRepository<Items, Integer>{
 	List<Items> findAllByNameContaining(@Param("namePrefix") String str);
 
 
+
 }
