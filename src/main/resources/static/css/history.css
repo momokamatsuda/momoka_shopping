@@ -1,0 +1,14 @@
+table{
+  width: 40%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table th,table td{
+  padding: 7px 0;
+  text-align: center;
+}
+
+table tr:nth-child(odd){
+  background-color: #eee
+}

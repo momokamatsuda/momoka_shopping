@@ -30,7 +30,7 @@ public class AccountController {
 
 	@Autowired
 	ItemsRepository itemsRepository;
-	
+
 	@Autowired
 	OrderedRepository orderedRepository;
 
@@ -93,10 +93,24 @@ public class AccountController {
 			mv.addObject("message", "未入力項目があります");
 			mv.setViewName("signup");
 		} else {
-			// 入力された情報をUsersテーブルに登録
-			Users users = new Users(name, email, password, address, tell);
-			usersRepository.saveAndFlush(users);
-			mv.setViewName("login");
+			// 重複チェック
+			// ①DBから同一のNameを持つデータを取得
+			// ②データが取得できたら登録しない
+			List<Users> userList = usersRepository.findAllByEmail(email);
+			mv.addObject("users", userList);
+			
+			if(userList.size() != 0) {
+				mv.addObject("message", "登録済のユーザーです");
+				mv.setViewName("signup");
+			}
+			else {
+				
+				// 入力された情報をUsersテーブルに登録
+				Users users = new Users(name, email, password, address, tell);
+				usersRepository.saveAndFlush(users);
+				mv.setViewName("login");
+			}
+			
 		}
 
 		return mv;
@@ -121,34 +135,34 @@ public class AccountController {
 
 		// セッションからUser情報を取得
 		Users user = (Users) session.getAttribute("user");
-		if (isNull(name) || isNull(email)|| isNull(address) || isNull(tell)
-				||	isNull(creditNo)||	creditSecurity==0	) {
+		if (isNull(name) || isNull(email) || isNull(address) || isNull(tell) || isNull(creditNo)
+				|| creditSecurity == 0) {
 			mv.addObject("message", "未入力項目があります");
 
 			// 更新画面を再表示
 			mv.addObject("userInfo", session.getAttribute("userInfo"));
 			mv.setViewName("orderInfo");
 		} else {
-		// 入力された情報をUsersテーブルに更新(IDは設定)
-		Users users = new Users(user.getId(), name, email, user.getPassword(), address, tell);
-		usersRepository.saveAndFlush(users);
-		session.setAttribute("user", users);
+			// 入力された情報をUsersテーブルに更新(IDは設定)
+			Users users = new Users(user.getId(), name, email, user.getPassword(), address, tell);
+			usersRepository.saveAndFlush(users);
+			session.setAttribute("user", users);
 
-		// クレジットカード情報をDBに登録または更新？？？
-		//List<Pay> payList = payRepository.findAll();
-		Pay pay = new Pay(user.getId(), creditNo, creditSecurity);
+			// クレジットカード情報をDBに登録または更新？？？
+			// List<Pay> payList = payRepository.findAll();
+			Pay pay = new Pay(user.getId(), creditNo, creditSecurity);
 
-		//
-		// sessionにクレジットカードを入れる
-		session.setAttribute("pay", pay);
-		
-		Cart cart = getCartFromSession();
-		mv.addObject("items", cart.getItems());
-		mv.addObject("total", cart.getTotal());
-		mv.setViewName("orderComplete");
+			//
+			// sessionにクレジットカードを入れる
+			session.setAttribute("pay", pay);
+
+			Cart cart = getCartFromSession();
+			mv.addObject("items", cart.getItems());
+			mv.addObject("total", cart.getTotal());
+			mv.setViewName("orderComplete");
 		}
 		return mv;
-		
+
 	}
 
 	private Cart getCartFromSession() {
@@ -210,10 +224,24 @@ public class AccountController {
 	public ModelAndView history(ModelAndView mv) {
 		// セッションからUser情報を取得
 		Users user = (Users) session.getAttribute("user");
-		
+
 		List<Ordered> orders = orderedRepository.findAllByUserId(user.getId());
-		mv.addObject("orders",orders);
+		mv.addObject("orders", orders);
 		mv.setViewName("history");
+		return mv;
+	}
+	//退会
+//	<form action="withdrawal">
+	@RequestMapping(value = "/withdrawal")
+	public ModelAndView withdrawal(
+			ModelAndView mv) {
+		// セッションからUser情報を取得
+		Users user = (Users) session.getAttribute("user");
+		// idを基にデータを削除
+		usersRepository.deleteById(user.getId());
+		// 削除を確定
+		usersRepository.flush();
+		mv.setViewName("login");
 		return mv;
 	}
 

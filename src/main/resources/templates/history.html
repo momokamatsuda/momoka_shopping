@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>注文履歴</title>
-<link rel="stylesheet" th:href="@{/css/NewFile.css}">
+<link rel="stylesheet" th:href="@{/css/history.css}">
 </head>
 <body>
-<table border="1">
+	<span th:replace="header"></span>
+	<table border="1">
 		<tr>
 			<th>注文日時</th>
 			<th>金額</th>
-		
+
 		</tr>
-		
+
 		<tr th:each="order:${orders}">
 			<!-- <td th:text="${orderHistory.order.orderedDate}"></td> -->
 			<td th:text="${#dates.format(order.orderedDate, 'yyyy-MM-dd')}"></td>
 			<td th:text="${order.totalPrice}"></td>
-			
-		</tr>
-		<hr>
-		<a href="/mypage">マイページに戻る</a>
-	</table>
 
+		</tr>
+
+	</table>
+	<span th:replace="footer"></span>
 </body>
 </html>

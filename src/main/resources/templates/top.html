@@ -16,15 +16,14 @@
 	</div>
 
 
-	<a href="/mypage">マイページへ</a>
-	<hr>
+	<span th:replace="header"></span>
 	<div class="mr-45 ml-45">
-		 <form action="/search" method="post" id="form5">
-			<input type="search" name="searchWord" placeholder="キーワードを入力" id="sbox5"  >
-			<input type="submit" value="検索" id="sbtn5">
-			</form>
-			
-			<!-- <form id="form5" action="/search">
+		<form action="/search" method="post" id="form5">
+			<input type="search" name="searchWord" placeholder="キーワードを入力"
+				id="sbox5"> <input type="submit" value="検索" id="sbtn5">
+		</form>
+
+		<!-- <form id="form5" action="/search">
 				<input id="sbox5" id="s" name="searchWord" type="text" placeholder="キーワードを入力" />
 				<input id="sbtn5" type="submit" value="検索" />
 		</form>-->
@@ -35,26 +34,27 @@
 	</a> -->
 	<hr>
 	<div class="mr-45 ml-45">
-		<table border="1">
-			<tr>
-				<th>商品名</th>
-				<th></th>
-				<th>値段</th>
-				<th></th>
+		<table border="1" class="osare-table col5t">
+			<thead>
+				<tr>
+					<th>商品名</th>
+					<th></th>
+					<th>値段</th>
+					<th></th>
 
-			</tr>
+				</tr>
+			</thead>
 			<tr th:each="item:${items}">
 
 				<td th:text="${item.name}"></td>
 				<td><img style="width: 100px" th:src="|/${item.image}|" /></td>
 
 				<td th:text="${item.price}"></td>
-				<td><a th:href="|/cart/add/${item.id}|">カートに追加</a></td>
+				<td><a th:href="|/cart/add/${item.id}|" class="btn-square">カートに追加</a></td>
 
 			</tr>
 		</table>
 	</div>
-	<hr>
-	<a href="/">ログアウト</a>
+	<span th:replace="footer"></span>
 </body>
 </html>

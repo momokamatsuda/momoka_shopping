@@ -6,12 +6,14 @@
 <link rel="stylesheet" th:href="@{/css/NewFile.css}">
 </head>
 <body>
-	
-	<!-- カート情報 -->
-	<table border="1">
+	<a href="/items">トップページへ</a>
+	<a href="/mypage">マイページへ</a>
+   	<a href="/">ログアウト</a>
+<hr>
+	<table border="1" class="osare-table col5t">
 		<!-- タイトル -->
 		<tr>
-			<th>NO</th>
+
 			<th>商品名</th>
 			<th>値段</th>
 			<th>個数</th>
@@ -20,23 +22,24 @@
 		</tr>
 		<!--  アイテムの一覧-->
 		<tr th:each="item:${items}">
-		<td th:text="${item.value.id}"></td>
-		<td th:text="${item.value.name}"></td>
-		<td th:text="${item.value.price}"></td>
-		<td th:text="${item.value.quantity}"></td>
-		<td th:text="${item.value.price*item.value.quantity}"></td>
-		<td >
-		<a th:href="|/cart/delete/${item.value.id}|">削除</a>
-		</td>
+			<td th:text="${item.value.name}"></td>
+			<td th:text="${item.value.price}"></td>
+			<td th:text="${item.value.quantity}"></td>
+			<td th:text="${item.value.price*item.value.quantity}"></td>
+			<td><a th:href="|/cart/delete/${item.value.id}|">削除</a></td>
 		</tr>
 		<!-- 総計 -->
 		<tr>
-		<td align="right" colspan ="5" th:text="|総計：${total}|"></td>
+
+			<td class="alignright" colspan="5"><font size="5"><b
+					th:text="|総計：${total}|"></b></font></td>
 		</tr>
 	</table>
 	<a href="/items">買い物を続ける</a>
-	<form action="/orderItem" method="get">
-		<input type="submit" value="注文する">
+	<form th:if="${total != 0}" action="/orderItem" method="get">
+		<input type="submit" class="myButton" value="注文する">
+
 	</form>
+	<p th:if="${total == 0}">カートが空です</p>
 </body>
 </html>

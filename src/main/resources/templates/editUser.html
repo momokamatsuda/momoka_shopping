@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>登録情報の変更</title>
-<link rel="stylesheet" th:href="@{/css/NewFile.css}">
+<link rel="stylesheet" th:href="@{/css/mypage.css}">
 </head>
 <body>
-
-	<h3>お客様情報</h3>
+	<span th:replace="header"></span>
+	<h2>お客様情報</h2>
 	<!-- エラーメッセージ -->
-<span th:text="${message}" style="color:red;"></span>
+	<span th:text="${message}" style="color: red;"></span>
 	<form action="/editUser" method="post">
 		<p>
 			名前： <input type="text" name="name" th:value="${session.user.name}">
@@ -29,7 +29,8 @@
 		<p>
 			電話番号： <input type="text" name="tell" th:value="${session.user.tell}">
 		</p>
-		<input type="submit" value="更新">
+		<input type="submit" class="myButton" value="更新">
 	</form>
+	<span th:replace="footer"></span>
 </body>
 </html>

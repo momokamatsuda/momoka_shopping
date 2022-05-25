@@ -1,4 +1,4 @@
-<table border="1">
+<table border="1"  class="osare-table col5t">
 	<!-- タイトル -->
 	<tr>
 		<th>NO</th>
@@ -9,7 +9,7 @@
 		<th></th>
 	</tr>
 	<!--  アイテムの一覧-->
-	<tr th:each="item:${items}">
+	<tr th:each="item:${items}" >
 		<td th:text="${item.value.code}"></td>
 		<td th:text="${item.value.name}"></td>
 		<td th:text="${item.value.price}"></td>
@@ -19,6 +19,8 @@
 	</tr>
 	<!-- 総計 -->
 	<tr>
-		<td align="right" colspan="5" th:text="|総計：${total}|"></td>
+		<td class="alignright" colspan ="6">
+			<font size="5"><b th:text="|総計：${total}|"></b></font>
+		</td>
 	</tr>
 </table>

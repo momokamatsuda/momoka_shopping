@@ -32,10 +32,10 @@ public class OrderController {
 
 	@Autowired
 	PayRepository payRepository;
-	
+
 	@Autowired
 	OrderedRepository orderedRepository;
-	
+
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
 
@@ -47,10 +47,16 @@ public class OrderController {
 		mv.addObject("items", cart.getItems());
 		mv.addObject("total", cart.getTotal());
 
-		// クレジット情報をDBから取得
+		// 総計が０円だった場合メッセージを表示
+//		if(total==0) {
+//			mv.addObject("message", "カートが空です");
+//			mv.setViewName("cart");
+//			return mv;
+//		}else {
 
 		// お客様情報入力画面
 		mv.setViewName("orderInfo");
+//		}
 		return mv;
 	}
 
@@ -74,41 +80,38 @@ public class OrderController {
 		}
 		return cart;
 	}
-	//注文する
-	//<form action="/order/doOrder" method ="post">
+
+	// 注文する
+	// <form action="/order/doOrder" method ="post">
 	@RequestMapping(value = "/order/doOrder", method = RequestMethod.POST)
 	public ModelAndView ordered(
 
 			ModelAndView mv) {
 		Users user = (Users) session.getAttribute("user");
-		//注文情報をDBに格納する
+		// 注文情報をDBに格納する
 		Cart cart = getCartFromSession();
-		//登録処理
-		Ordered order = new Ordered(
-				user.getId(),
-				new Date(),
-				cart.getTotal()
-				);
+		// 登録処理
+		Ordered order = new Ordered(user.getId(), new Date(), cart.getTotal());
 		int orderCode = orderedRepository.saveAndFlush(order).getId();
-		
-		//注文詳細情報をDBに格納する
-		Map<Integer,Items> items =cart.getItems();
+
+		// 注文詳細情報をDBに格納する
+		Map<Integer, Items> items = cart.getItems();
 		List<OrderDetail> orderDetails = new ArrayList<>();
-		for (Items item:items.values()) {
-			orderDetails.add(new OrderDetail(orderCode,item));
+		for (Items item : items.values()) {
+			orderDetails.add(new OrderDetail(orderCode, item));
 		}
 		orderDetailRepository.saveAll(orderDetails);
-		//セッションスコープのカート情報をクリアする
+		// セッションスコープのカート情報をクリアする
 		session.setAttribute("cart", new Cart());
-		//画面返却用注文番号を設定する
-		mv.addObject("orderNumber",orderCode);
+		// 画面返却用注文番号を設定する
+		mv.addObject("orderNumber", orderCode);
 		mv.setViewName("ordered");
 		return mv;
 	}
-	
-	//セッションスコープからカート情報を取得
-	//カートが存在しない場合は、セッションスコープに追加した
-	//上で空のカート情報を返却
+
+	// セッションスコープからカート情報を取得
+	// カートが存在しない場合は、セッションスコープに追加した
+	// 上で空のカート情報を返却
 	private Cart getCartFromSession() {
 		Cart cart = (Cart) session.getAttribute("cart");
 		if (cart == null) {

@@ -51,24 +51,24 @@ public class CartController {
 		mv.setViewName("cart");
 		return mv;
 	}
-	//カートの中身の削除処理
-		@RequestMapping("/cart/delete/{id}")
-		public ModelAndView deleteCart(
-				@PathVariable("id") int id,
-				ModelAndView mv) {
-			//カートの情報を取得
-			//カート情報が取れない場合、初期処理
-			//メソッドgetCart()を使用
-			Cart cart=getCartFromSession();
-			//カートの中からcodeが一致するアイテムを削除
-			cart.deleteCart(id);
-			//ページ表示に必要なデータを設定
-			mv.addObject("items",cart.getItems());
-			mv.addObject("total",cart.getTotal());
-			//カートの中身を表示するページを遷移
-			mv.setViewName("cart");
-			return mv;
-		}
+
+	// カートの中身の削除処理
+	@RequestMapping("/cart/delete/{id}")
+	public ModelAndView deleteCart(@PathVariable("id") int id, ModelAndView mv) {
+		// カートの情報を取得
+		// カート情報が取れない場合、初期処理
+		// メソッドgetCart()を使用
+		Cart cart = getCartFromSession();
+		// カートの中からcodeが一致するアイテムを削除
+		cart.deleteCart(id);
+		// ページ表示に必要なデータを設定
+		mv.addObject("items", cart.getItems());
+		mv.addObject("total", cart.getTotal());
+		// カートの中身を表示するページを遷移
+		mv.setViewName("cart");
+		return mv;
+	}
+
 	private Cart getCartFromSession() {
 		Cart cart = (Cart) session.getAttribute("cart");
 		if (cart == null) {

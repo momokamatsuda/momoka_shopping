@@ -3,24 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>新規会員登録</title>
-<link rel="stylesheet" th:href="@{/css/NewFile.css}">
+<link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
-	<h1>新規会員登録画面</h1>
-	<!-- エラーメッセージ -->
-	<span th:text="${message}" style="color: red;"></span>
-	<!-- ログインフォーム -->
-	
+
 	<form action="/signup" method="post">
-	
-			<p>名前<input type="text" name="name" ></p>
-		 	<p>メールアドレス<input type="text" name="email" ></p>
-		  	<p>パスワード<input type="text" name="password"></p>
-		   	<p>住所<input type="text" name="address" ></p>
-		   	<p>電話番号<input type="text" name="tell"></p>
-		  	<input type="submit" value="新規会員登録完了">
-	
+		<h1>新規会員登録画面</h1>
+		<!-- エラーメッセージ -->
+		<span th:text="${message}" style="color: red;"></span>
+		<!-- ログインフォーム -->
+
+		<p>
+			名前<input type="text" name="name">
+		</p>
+		<p>
+			メールアドレス<input type="text" name="email">
+		</p>
+		<p>
+			パスワード<input type="text" name="password">
+		</p>
+		<p>
+			住所<input type="text" name="address">
+		</p>
+		<p>
+			電話番号<input type="text" name="tell">
+		</p>
+		<input type="submit" class="btn" value="新規会員登録完了">
+		<p>
+			<a href="/" class="alink"> ログイン画面に戻る </a>
+		</p>
 	</form>
-	
+	<span th:replace="footer"></span>
 </body>
 </html>

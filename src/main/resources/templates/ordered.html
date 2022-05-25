@@ -3,12 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>注文完了</title>
-<link rel="stylesheet" th:href="@{/css/NewFile.css}">
 </head>
 <body>
-<h1>ご注文ありがとうございます</h1>
-<h5>お客様の注文番号は</h5>
-<h3><span th:text="${orderNumber}" style="color:red"></span></h3>
-<a href="/">ログアウト</a>
+	<p>
+		<b><font size="8">ご注文ありがとうございます</font></b>
+	</p>
+	<h3>お客様の注文番号は</h3>
+	<h2>
+		<span th:text="${orderNumber}" style="color: red"></span>
+	</h2>
+	<a href="/">ログアウト</a>
+	<span th:replace="footer"></span>
 </body>
 </html>

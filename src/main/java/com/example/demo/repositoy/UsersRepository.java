@@ -11,4 +11,6 @@ import com.example.demo.entity.Users;
 public interface UsersRepository extends JpaRepository<Users, Integer> {
 	//select * from users where email ='' and password =''と同じ意味; 
 	List<Users> findAllByEmailAndPassword(String email, String password);
+	List<Users> findAllByEmail(String email);
+	
 }
