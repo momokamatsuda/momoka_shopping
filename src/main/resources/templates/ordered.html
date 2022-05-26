@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <title>注文完了</title>
+<link rel="stylesheet" th:href="@{/css/ordered.css}">
+<link rel="stylesheet" th:href="@{/css/NewFile.css}">
 </head>
 <body>
-	<p>
-		<b><font size="8">ご注文ありがとうございます</font></b>
+	<p style="text-align:center" class="change-time1 box fadeUp">
+		<b ><font size="8" >ご注文ありがとうございます</font></b>
 	</p>
-	<h3>お客様の注文番号は</h3>
-	<h2>
+	<h3 style="text-align:center">お客様の注文番号は</h3>
+	<h2 style="text-align:center">
 		<span th:text="${orderNumber}" style="color: red"></span>
 	</h2>
-	<a href="/">ログアウト</a>
-	<span th:replace="footer"></span>
+	<h3 style="text-align:center">です。またのご利用お待ちしております。</h3>
+	<p  style="text-align:center"><a href="/" >ログアウト</a></p>
+	<span style="text-align:center" th:replace="footer"></span>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Cart</title>
+<link rel="stylesheet" th:href="@{/css/header.css}">
 <link rel="stylesheet" th:href="@{/css/NewFile.css}">
 </head>
 <body>
@@ -35,7 +36,7 @@
 					th:text="|総計：${total}|"></b></font></td>
 		</tr>
 	</table>
-	<a href="/items">買い物を続ける</a>
+	<a href="/items"><button  class="myButton2">買い物を続ける</button></a>
 	<form th:if="${total != 0}" action="/orderItem" method="get">
 		<input type="submit" class="myButton" value="注文する">
 

@@ -26,8 +26,13 @@ public class ItemController {
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(ModelAndView mv, @RequestParam("searchWord") String searchWord) {
 		List<Items> itemList = itemsRepository.findAllByNameContaining(searchWord);
+		if(itemList.size()==0) {
+			mv.addObject("message", "検索ワードを含む商品がありません");
+			mv.setViewName("top");
+		}else {
 		mv.addObject("items", itemList);
 		mv.setViewName("top");
+		}
 		return mv;
 	}
 

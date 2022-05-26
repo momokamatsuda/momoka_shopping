@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>注文内容確認画面</title>
 <link rel="stylesheet" th:href="@{/css/NewFile.css}">
+<link rel="stylesheet" th:href="@{/css/mypage.css}">
 </head>
 <body>
 
@@ -30,9 +31,9 @@
 		</tr>
 	</table>
 	<form action="/order/doOrder" method="post">
-		<h3>
+		<h2>
 			<font size="6">お客様情報</font>
-		</h3>
+		</h2>
 		<p>
 			名前： <span th:text="${session.user.name}"></span>
 		</p>

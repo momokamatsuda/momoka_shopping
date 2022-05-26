@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>購入ページ</title>
+
 <link rel="stylesheet" th:href="@{/css/NewFile.css}">
 </head>
 <body>
@@ -36,8 +37,9 @@
 	<form action="/orderComplete" method="post">
 		<!-- エラーメッセージ -->
 		<span th:text="${message}" style="color: red;"></span>
-		<p>
-			名前： <input type="text" name="name" th:value="${session.user.name}">
+		
+		<p >
+			名前： <input type="text" id="input1" name="name" th:value="${session.user.name}">
 		</p>
 		<p>
 			住所： <input type="text" name="address"
